@@ -22,8 +22,8 @@ export class ArticuloService {
     return this.http.post<ArticuloGet>(`${base_url}/articulos/`, data);
   }
 
-  updateArticulo(sku: number, data: any): Observable<any> {
-    return this.http.put<any>(`${base_url}/articulos/${sku}`, data);
+  updateArticulo(sku: number, data: any): Observable<ArticuloGet> {
+    return this.http.put<ArticuloGet>(`${base_url}/articulos/${sku}`, data);
   }
 
   deleteArticulo(sku: number): Observable<any> {

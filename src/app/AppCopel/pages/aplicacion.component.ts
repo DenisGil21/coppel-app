@@ -29,6 +29,7 @@ export class AplicacionComponent implements OnInit {
     familia: [{ value: "", disabled: true }, Validators.required],
     stock: ["", Validators.required],
     cantidad: ["", Validators.required],
+    descontinuado: [""]
   }, {
     validators: this.cantidadStock('stock', 'cantidad')
   });
@@ -51,7 +52,7 @@ export class AplicacionComponent implements OnInit {
     return this.articuloForm.get(campo)!.invalid && this.articuloForm.get(campo)!.touched;
   }
 
-  buscarSku() {    
+  buscarSku() {
     this.articuloForm.get('sku')?.markAllAsTouched();
     let sku = this.articuloForm.get('sku')?.value || "";
     if (!sku) {
@@ -60,12 +61,11 @@ export class AplicacionComponent implements OnInit {
     this.mostrarForm = true;
     this.articuloServie.getArticulo(parseInt(sku))
       .subscribe(resp => {
-        
+
         this.articulo = resp.articulo;
-        console.log(this.articulo);
         this.getDepartamentos();
         if (this.articulo.length > 0) {
-          this.articuloForm.get('sku')?.clearValidators();  
+          this.articuloForm.get('sku')?.clearValidators();
           this.cargarArticulo(this.articulo);
           this.getClasesByDepartamento(this.articulo[0].departamento_id);
           this.getFamiliasByClase(this.articulo[0].clase_id);
@@ -117,7 +117,7 @@ export class AplicacionComponent implements OnInit {
       this.articuloForm.get('clase')?.disable();
       this.articuloForm.get('familia')?.disable();
       this.articuloForm.get('familia')?.setValue("");
-      
+
       return;
     }
     this.getClasesByDepartamento(parseInt(id_departamento));
@@ -136,8 +136,6 @@ export class AplicacionComponent implements OnInit {
   }
 
   getClasesByDepartamento(id: number) {
-    console.log(id);
-
     this.claseService.getClasesByDepartamento(id).subscribe(resp => {
       this.clases = resp.clases;
       if (this.clases.length > 0) {
@@ -148,8 +146,6 @@ export class AplicacionComponent implements OnInit {
 
   getFamiliasByClase(id: number) {
     this.familiaService.getFamiliasByClase(id).subscribe(resp => {
-      console.log(resp);
-
       this.familias = resp.familias;
       if (this.familias.length > 0) {
         this.articuloForm.get('familia')?.enable();
@@ -174,16 +170,15 @@ export class AplicacionComponent implements OnInit {
 
   }
 
-  actualizarArticulo() {    
+  actualizarArticulo() {
     if (this.articuloForm.invalid) {
       return Object.values(this.articuloForm.controls).forEach(control => control.markAllAsTouched());
     }
     let data = this.articuloForm.value;
     this.articuloServie.updateArticulo(this.articulo[0].sku, data)
       .subscribe(resp => {
-        console.log(resp);
-        this.articuloForm.get('sku')?.setErrors({required: true});
-        Swal.fire('Guardado', 'Articulo actualizado correctamente', 'success');
+        this.articulo = resp.articulo;
+        Swal.fire('Actualizado', 'Articulo actualizado correctamente', 'success');
       });;
   }
 
@@ -198,7 +193,6 @@ export class AplicacionComponent implements OnInit {
 
         this.articuloServie.deleteArticulo(this.articulo[0].sku)
           .subscribe(resp => {
-            console.log(this.articulo[0].sku);
             Swal.fire('Eliminado', 'Articulo eliminado correctamente', 'success');
             this.resetFormulario();
             this.mostrarForm = false;
