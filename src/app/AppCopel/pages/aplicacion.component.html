@@ -1,12 +1,16 @@
 <div class="d-flex justify-content-center margen">
-  <div class="w-50">
+  <div class="w-50 card">
     <div class="row">
+      <div class="col-12 text-center">
+        <h2>Articulos</h2>
+        <img src="https://www.coppel.com/images/emarketing/logo.svg" alt="" class="w-25">
+      </div>
       <div class="col-12">
         <form [formGroup]="articuloForm">
           <div class="row">
-            <div class="col-6">
+            <div class="col-md-6">
               <div class="mb-3">
-                <label for="sku" class="form-label">SKU</label>
+                <label for="sku" class="form-label">SKU:</label>
                 <input type="number" id="sku" class="form-control" aria-describedby="skuValidation"
                   placeholder="Ingresar SKU" formControlName="sku" [ngClass]="{'is-invalid': campoNoValido('sku')}">
                 <div id="skuValidation" class="invalid-feedback">
@@ -14,24 +18,16 @@
                 </div>
               </div>
             </div>
-            <div class="col-6">
-              <button type="button" class="btn btn-primary mt-4 w-100" (click)="buscarSku()">Buscar</button>
+            <div class="col-md-6">
+              <button type="button" class="btn btn-primary mt-4 w-100" (click)="buscarSku()">
+                <i class="fa fa-search"></i> Buscar</button>
             </div>
           </div>
           <div *ngIf="mostrarForm">
             <div class="row">
-              <div class="col-12" *ngIf="articulo.length > 0">
-                <div class="form-check mt-4">
-                  <input class="form-check-input" type="checkbox" value="1" id="descontinuado"
-                    formControlName="descontinuado">
-                  <label class="form-check-label" for="descontinuado">
-                    Descontinuado
-                  </label>
-                </div>
-              </div>
-              <div class="col-6">
+              <div [ngClass]="{'col-md-8': articulo.length > 0, 'col-md-6':articulo.length ==0}">
                 <div class="mb-3">
-                  <label for="articulo" class="form-label">Articulo</label>
+                  <label for="articulo" class="form-label">Articulo:</label>
                   <input type="text" class="form-control" placeholder="Nombre" id="articulo"
                     [ngClass]="{'is-invalid': campoNoValido('articulo')}" formControlName="articulo">
                   <div class="invalid-feedback">
@@ -39,9 +35,18 @@
                   </div>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-md-4 d-flex align-items-center" *ngIf="articulo.length > 0">
+                <div class="form-check mb-3 mb-3">
+                  <input class="form-check-input" type="checkbox" value="1" id="descontinuado"
+                    formControlName="descontinuado">
+                  <label class="form-check-label" for="descontinuado">
+                    Descontinuado <i class="fa-sharp fa-solid fa-warehouse"></i>
+                  </label>
+                </div>
+              </div>
+              <div [ngClass]="{'col-md-12': articulo.length > 0, 'col-md-6':articulo.length ==0}">
                 <div class="mb-3">
-                  <label for="marca" class="form-label">Marca</label>
+                  <label for="marca" class="form-label">Marca:</label>
                   <input type="text" class="form-control" placeholder="Nombre" id="marca"
                     [ngClass]="{'is-invalid': campoNoValido('marca')}" formControlName="marca">
                   <div class="invalid-feedback">
@@ -49,9 +54,9 @@
                   </div>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-md-6">
                 <div class="mb-3">
-                  <label for="modelo" class="form-label">Modelo</label>
+                  <label for="modelo" class="form-label">Modelo:</label>
                   <input type="text" class="form-control" placeholder="Nombre" id="modelo"
                     [ngClass]="{'is-invalid': campoNoValido('modelo')}" formControlName="modelo">
                   <div class="invalid-feedback">
@@ -59,9 +64,9 @@
                   </div>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-md-6">
                 <div class="mb-3">
-                  <label for="departamento" class="form-label">Departamento</label>
+                  <label for="departamento" class="form-label">Departamento:</label>
                   <select class="form-select" formControlName="departamento"
                     [ngClass]="{'is-invalid': campoNoValido('departamento')}" (change)="cargarClases($event)">
                     <option value="" selected>Seleccione departamento</option>
@@ -73,9 +78,9 @@
                   </div>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-md-6">
                 <div class="mb-3">
-                  <label for="clase" class="form-label">Clase</label>
+                  <label for="clase" class="form-label">Clase:</label>
                   <select class="form-select" formControlName="clase" [ngClass]="{'is-invalid': campoNoValido('clase')}"
                     (change)="cargarFamilias($event)">
                     <option value="" selected>Seleccione clase</option>
@@ -86,9 +91,9 @@
                   </div>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-md-6">
                 <div class="mb-3">
-                  <label for="familia" class="form-label">Familia</label>
+                  <label for="familia" class="form-label">Familia:</label>
                   <select class="form-select" formControlName="familia"
                     [ngClass]="{'is-invalid': campoNoValido('familia')}">
                     <option value="" selected>Seleccione familia</option>
@@ -101,20 +106,20 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-6">
+              <div class="col-md-6">
                 <div class="mb-3">
-                  <label for="stock" class="form-label">Stock</label>
-                  <input type="text" class="form-control" placeholder="Nombre" id="stock"
+                  <label for="stock" class="form-label">Stock:</label>
+                  <input type="number" class="form-control" placeholder="Ingrese un número" id="stock"
                     [ngClass]="{'is-invalid': campoNoValido('stock')}" formControlName="stock">
                   <div class="invalid-feedback">
                     Campo obligatorio
                   </div>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-md-6">
                 <div class="mb-3">
-                  <label for="cantidad" class="form-label">Cantidad</label>
-                  <input type="text" class="form-control" placeholder="Nombre" id="cantidad"
+                  <label for="cantidad" class="form-label">Cantidad:</label>
+                  <input type="number" class="form-control" placeholder="Ingrese un número" id="cantidad"
                     [ngClass]="{'is-invalid': campoNoValido('cantidad')}" formControlName="cantidad">
                   <div class="invalid-feedback">
                     Campo obligatorio y debe ser igual o menor al stock
@@ -123,23 +128,26 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-6">
+              <div class="col-md-6">
                 <p *ngIf="articulo[0]"><b>Fecha Alta: </b> {{articulo[0].fecha_alta}}</p>
               </div>
-              <div class="col-6">
+              <div class="col-md-6">
                 <p *ngIf="articulo[0]"><b>Fecha Baja: </b> {{articulo[0].fecha_baja}}</p>
               </div>
             </div>
             <div class="row" *ngIf="articulo.length > 0">
-              <div class="col-6">
-                <button type="button" class="btn btn-success w-100" (click)="actualizarArticulo()">Actualizar</button>
+              <div class="col-md-6">
+                <button type="button" class="btn btn-success w-100 mb-3" (click)="actualizarArticulo()">
+                  <i class="fa fa-arrows-rotate"></i> Actualizar</button>
               </div>
-              <div class="col-6">
-                <button type="button" class="btn btn-danger w-100" (click)="eliminarArticulo()">Eliminar</button>
+              <div class="col-md-6">
+                <button type="button" class="btn btn-danger w-100 mb-3" (click)="eliminarArticulo()">
+                  <i class="fa fa-trash"></i> Eliminar</button>
               </div>
             </div>
             <div class="row" [ngClass]="{'d-none': articulo.length > 0}">
-              <button type="button" class="btn btn-primary w-100" (click)="guardarArticulo()">Agregar</button>
+              <button type="button" class="btn btn-primary w-100" (click)="guardarArticulo()">
+                <i class="fa fa-save"></i> Guardar</button>
             </div>
           </div>
         </form>
