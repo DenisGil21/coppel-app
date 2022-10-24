@@ -70,6 +70,7 @@ export class AplicacionComponent implements OnInit {
           this.getClasesByDepartamento(this.articulo[0].departamento_id);
           this.getFamiliasByClase(this.articulo[0].clase_id);
         } else {
+          Swal.fire('No hay resultados', 'Artículo no encontrado', 'info')
           this.articuloForm.get('sku')?.setValidators([Validators.required, Validators.min(1)]);
           this.resetFormulario();
           this.articuloForm.get('sku')?.setValue(sku);
