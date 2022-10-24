@@ -101,6 +101,9 @@ export class AplicacionComponent implements OnInit {
       stock: articulo1.cantidad.toString(),
       cantidad: articulo1.cantidad.toString(),
     });
+      if(articulo1.descontinuado == 1){
+        this.articuloForm.get('descontinuado')?.setValue("1");
+    }
   }
 
   getDepartamentos() {
